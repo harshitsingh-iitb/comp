@@ -1,7 +1,9 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 from datetime import datetime
 
 app = Flask(__name__)
+CORS(app)
 
 # Example competition details
 competition_date = datetime(2025, 7, 20)
