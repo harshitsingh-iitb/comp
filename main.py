@@ -1,13 +1,15 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 CORS(app)
 
-# Example competition details
-competition_date = datetime(2025, 7, 20)
-responses = 134  # Replace with dynamic data if needed
+competition_date_str = "2025-07-20"
+competition_date_str = os.getenv("COMPETITION_DATE", competition_date_str)
+competition_date = datetime.strptime(competition_date_str, "%Y-%m-%d")
+responses = 0
 
 @app.route("/status", methods=["GET"])
 def get_status():
@@ -18,8 +20,6 @@ def get_status():
     return jsonify({
         "days_left": days_left,
         "is_live": is_live,
-        "responses": responses
+        "responses": responses,
+        "competition_date": competition_date.strftime("%d %B")  # e.g., "20 July"
     })
-
-if __name__ == "__main__":
-    app.run(debug=True)
